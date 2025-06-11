@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Para você, Yasmin 💖</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    body {
+      font-family: 'Segoe UI', sans-serif;
+      color: white;
+      text-align: center;
+      overflow: hidden;
+      background: url('yasmineelias.jpeg') no-repeat center center fixed;
+      background-size: cover;
+      position: relative;
+      height: 100vh;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+    }
+    body::after {
+      content: "";
+      position: absolute;
+      inset: 0;
+      background-color: rgba(0, 0, 0, 0.6);
+      z-index: 0;
+    }
+    #text {
+      font-size: 1.3rem;
+      padding: 20px;
+      max-width: 90%;
+      z-index: 1;
+    }
+    .heart {
+      position: fixed;
+      width: 20px;
+      height: 20px;
+      background: red;
+      transform: rotate(45deg);
+      animation: fall linear infinite;
+      z-index: 0;
+    }
+    .heart::before, .heart::after {
+      content: "";
+      position: absolute;
+      width: 20px;
+      height: 20px;
+      background: red;
+      border-radius: 50%;
+    }
+    .heart::before { top: -10px; left: 0; }
+    .heart::after { left: 10px; top: 0; }
+    @keyframes fall {
+      to {
+        transform: translateY(100vh) rotate(45deg);
+        opacity: 0;
+      }
+    }
+    #audio {
+      position: fixed;
+      bottom: 15px;
+      left: 50%;
+      transform: translateX(-50%);
+      z-index: 1;
+    }
+  </style>
+</head>
+<body>
+
+  <div id="text"></div>
+  <audio id="audio" controls autoplay loop>
+    <source src="right_here_lil_peep.mp3" type="audio/mpeg">
+    Seu navegador não suporta áudio embutido.
+  </audio>
+
+  <script>
+    const frases = [
+      'Yasmin, você me faz sentir em casa, mesmo longe.',
+      'No meio de milhares de linhas de código, você é meu comando favorito. SEU URSINHO TE AMA ETERNAMENTE'
+    ];
+    const textEl = document.getElementById('text');
+
+    function digitar(text, callback) {
+      let i = 0;
+      const speed = 50;
+      function step() {
+        if (i < text.length) {
+          textEl.innerHTML += text[i++];
+          setTimeout(step, speed);
+        } else {
+          textEl.innerHTML += '<br><br>';
+          if (callback) callback();
+        }
+      }
+      step();
+    }
+
+    function iniciar() {
+      let idx = 0;
+      function proxima() {
+        if (idx < frases.length) {
+          digitar(frases[idx++], proxima);
+        }
+      }
+      proxima();
+    }
+
+    function criarHeart() {
+      const heart = document.createElement('div');
+      heart.classList.add('heart');
+      heart.style.left = Math.random() * 100 + 'vw';
+      heart.style.animationDuration = 3 + Math.random() * 2 + 's';
+      document.body.appendChild(heart);
+      setTimeout(() => heart.remove(), 5000);
+    }
+    setInterval(criarHeart, 300);
+
+    window.onload = iniciar;
+  </script>
+
+</body>
+</html>
